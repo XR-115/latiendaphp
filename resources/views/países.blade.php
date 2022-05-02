@@ -10,23 +10,23 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-dark text-info">
-    <h1>Paises :D</h1>
+    <h1>PAÍSES :D</h1>
         <table class="table table-striped bg-white">                                                                                                                                                   
             <thead>
                 <tr>
-                    <th>
+                    <th class="text-primary"> 
                         País
                     </th>
-                    <th>
+                    <th class="text-secondary">
                         Capital
                     </th>
-                    <th>
+                    <th class="text-success">
                         Moneda
                     </th>
-                    <th>
+                    <th class="text-info">
                         Poblacion
                     </th>
-                    <th>
+                    <th class="text-warning">
                         Ciudades
                     </th>
                 </tr>
@@ -34,13 +34,20 @@
             <tbody>
                 @foreach($paises as $pais => $infopais)
                 <tr>
-                    <td>{{ $pais }}</td>
-                    <td>{{ $infopais["capital"] }}</td>
-                    <td>{{ $infopais["moneda"] }}</td>
-                    <td>{{ $infopais["poblacion"] }}</td>
+                    <td rowspan='{{ count($infopais["ciudades"]) }}'>{{ $pais }}</td>
+
+                    <td rowspan='{{ count($infopais["ciudades"]) }}'>{{ $infopais["capital"] }}</td>
+
+                    <td rowspan='{{ count($infopais["ciudades"]) }}'>{{ $infopais["moneda"] }}</td>
+
+                    <td rowspan='{{ count($infopais["ciudades"]) }}'>{{ $infopais["poblacion"] }}</td>
                     
-        
-                </tr>
+                    @foreach($infopais["ciudades"] as $ciudad) 
+                    
+                        <td class="bg-info">{{$ciudad}}</td>
+                    </tr>
+                    @endforeach
+                    
                 @endforeach
             </tbody>
             <tfoot></tfoot>
