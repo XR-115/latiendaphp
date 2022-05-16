@@ -95,3 +95,11 @@ Route::get('arreglos', function(){
     return view("países")
         ->with("paises" , $paises);
  });
+
+Route::get('prueba' , function(){
+    return view('layouts.menu');
+});
+
+Route::get('prueba1' , function(){
+    return view('productos.new');
+});
