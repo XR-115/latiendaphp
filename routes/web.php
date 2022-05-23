@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+//dependencia al controlador
+use App\Http\Controllers\ProductoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -103,3 +104,6 @@ Route::get('prueba' , function(){
 Route::get('prueba1' , function(){
     return view('productos.new');
 });
+
+//RUTAS REST 
+Route::resource('productos' , ProductoController::class);

@@ -2,8 +2,9 @@
 
 @section('contenido')
 <div class="row">
-    <h1 class="cyan-text">Nuevo producto uwu</h1>
+    <h1 class="cyan-text">Nuevo producto</h1>
 </div>
+<div>
 <div class="row">
     <form class="col s8" method="POST">
 
@@ -38,5 +39,6 @@
             </div>
         </div>
     </form>
+</div>
 </div>
 @endsection
