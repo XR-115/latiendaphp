@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La tienda</title>
     <link rel="stylesheet" href="{{ asset('materialize/css/materialize.css') }}">
+    
 </head>
 <body class=
 "#eeeeee grey lighten-3"
@@ -24,6 +25,12 @@
         @yield('contenido')
     </div>
     <script src="{{asset('materialize/js/materialize.js') }}"></script>
+    <script>
+          document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, []);
+        });
+    </script>
 
 </body>
 </html>

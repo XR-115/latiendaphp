@@ -101,9 +101,9 @@ Route::get('prueba' , function(){
     return view('layouts.menu');
 });
 
-Route::get('prueba1' , function(){
-    return view('productos.new');
-});
+// Route::get('prueba1' , function(){
+//     return view('productos.new');
+// });
 
 //RUTAS REST 
 Route::resource('productos' , ProductoController::class);
