@@ -6,6 +6,8 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Marca;
 use Illuminate\Http\Request;
+//dependencia para validar
+use Illuminate\Support\Facades\Validator;
 
 class ProductoController extends Controller
 {
@@ -44,31 +46,67 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //ACCERDER DATOS FORM
-    //    echo "<pre>"; 
-    //    var_dump($request->all());
-    //    echo "</pre>";
+        //VALIDACIÓN DE DATOS DEL FORMULARIO
+        //.1.Establecer las reglas de validación
+        //para la 'input data'
+        $reglas = [
+            "nombre" =>'required|alpha|unique:productos,nombre',
+            "description" =>'required|min:10|max:20',
+            "precio"=>'required|numeric',
+            "image"=>'required|image',
+            "marca"=>'required',
+            "categoria"=>'required',
 
-        //CREAR OBJETO Uploadedfile
-        $archivo = $request->image;
-        //CAPTURAR NOMBRE "Original" DEL ARCHIVO
-        //desde el cliente
-        $nombre_archivo = $archivo->getClientOriginalName();
-        var_dump($nombre_archivo);
-        //MOVER EL ARCHIVO A LA CARPETA "public/img"
-        $ruta = public_path();
-        $archivo->move("$ruta/img", $nombre_archivo);
-        // var_dump($ruta);
-        //REGISTRAR PRODUCTO
-        $producto = new Producto;
-        $producto-> nombre = $request->nombre;
-        $producto-> desc = $request->description;
-        $producto-> precio = $request->precio;
-        $producto-> imagen = $nombre_archivo;
-        $producto-> marca_id = $request->marca;
-        $producto-> categoria_id = $request->categoria;
-        $producto->save();
-        echo "producto registrado";
+        ];
+
+        $mensajes=[
+            "required" => "Este campo es obligatorio",
+            "alpha" => "Este campo es solo para letras",
+            "numeric" => "Solo recibe números",
+            "image" => "Debes subir una imágen",
+            "min" => "Debes tener un mínimo de :min",
+            "max" => "Debes tener un máximo de :max",
+            
+        ];
+
+        //2.Crear objeto validador
+        $validador =Validator::make($request->all(),$reglas, $mensajes);
+        //3.Validar
+        //fails()retorna: True si falla 
+        // False si sirve uwu
+        if ($validador->fails()) {
+            //Validacion incorrecta
+            //Mostrar la vista new 
+            //llevando los errores
+            return redirect('productos/create')
+                ->withErrors($validador);
+            //var_dump($validador->errors());
+         }else{
+                //Validacion correcta
+            //CREAR OBJETO Uploadedfile
+            $archivo = $request->image;
+            //CAPTURAR NOMBRE "Original" DEL ARCHIVO
+            //desde el cliente
+            $nombre_archivo = $archivo->getClientOriginalName();
+            var_dump($nombre_archivo);
+            //MOVER EL ARCHIVO A LA CARPETA "public/img"
+            $ruta = public_path();
+            $archivo->move("$ruta/img", $nombre_archivo);
+            // var_dump($ruta);
+            //REGISTRAR PRODUCTO
+            $producto = new Producto;
+            $producto-> nombre = $request->nombre;
+            $producto-> desc = $request->description;
+            $producto-> precio = $request->precio;
+            $producto-> imagen = $nombre_archivo;
+            $producto-> marca_id = $request->marca;
+            $producto-> categoria_id = $request->categoria;
+            $producto->save();
+            //Redireccionar al formulario
+            //Llevando un mensaje de exito
+            return redirect('productos/create')
+                ->with("mensajito", "producto registrado");
+            }
         
     }
 
